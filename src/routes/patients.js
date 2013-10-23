@@ -45,32 +45,6 @@ exports.Patients = function() {
       });
 
     });
-
-    //server = new MongoServer(mongoUri, 27017, {
-    //  auto_reconnect: true
-    //});
-
-    //db = new MongoDB('patientdb', server, {
-    //  safe: true
-    //});
-
-    /*db.open(function(err, db) {
-      if (!err) {
-        console.log("Connected to 'patientdb' database");
-        db.collection('patients', {
-          strict: true
-        }, function(err, collection) {
-          if (err) {
-            console.log("The 'patients' collection doesn't exist. Creating it with sample data...");
-            db.collection('patients', function(err, collection) {
-              collection.insert(getSamplePatients(), {
-                safe: true
-              }, function(err, result) {});
-            });
-          }
-        });
-      }
-    });*/
   };
 
   this.closeDB = function() {
@@ -85,9 +59,9 @@ exports.Patients = function() {
       var user = authenticateUser(post.username, post.password);
       if (user) {
         req.session.user_id = post.username;
-        res.send('{status: "success", firstName: "' + user.firstName + '"}');
+        res.send('{"status": "success", "firstName": "' + user.firstName + '"}');
       } else {
-        res.send('{status: "failure"}');
+        res.send('{"status": "failure"}');
       }
     } else {
       res.send('{status: "failure", errorMsg: "Problem with Post"}');
@@ -96,7 +70,7 @@ exports.Patients = function() {
 
   this.logout = function(req, res) {
     delete req.session.user_id;
-    res.send('{status: "success"}');
+    res.send('{"status": "success"}');
   };
 
   this.findAllPatients = function(req, res) {
