@@ -14,8 +14,11 @@ exports.Patients = function() {
     MongoServer = MongoLib.Server;
     MongoDB = MongoLib.Db;
     BSON = MongoLib.BSONPure;
+    var mongoUri = process.env.MONGOLAB_URI ||
+      process.env.MONGOHQ_URL ||
+      'mongodb://localhost/mydb';
 
-    server = new MongoServer('localhost', 27017, {
+    server = new MongoServer(mongoUri, 27017, {
       auto_reconnect: true
     });
 
@@ -156,8 +159,8 @@ exports.Patients = function() {
   this.searchPatient = function(req, res) {
     var search = req.body;
 
-    for(var key in search) {
-      if(search[key] === ""){
+    for (var key in search) {
+      if (search[key] === "") {
         delete search[key];
       }
     }
