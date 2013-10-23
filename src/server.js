@@ -34,8 +34,8 @@ exports.Server = function () {
   app.post('/patients/search', patients.checkAuth, patients.searchPatient);
 
 
-  app.listen(80);
-  console.log('Listening on port 80...');
+  app.listen(process.env.PORT || 3000);
+  console.log('Listening on port 3000?...');
 
 };
 
