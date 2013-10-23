@@ -18,6 +18,8 @@ exports.Patients = function() {
       process.env.MONGOHQ_URL ||
       'mongodb://localhost/mydb';
 
+    console.log(mongoUri);
+
     server = new MongoServer(mongoUri, 27017, {
       auto_reconnect: true
     });
