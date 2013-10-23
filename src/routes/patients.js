@@ -25,10 +25,20 @@ exports.Patients = function() {
         console.log("Error connecting to MongoLab");
       });
       db.createCollection("patients", function collectionCallback(error, collection) {
+        console.log("Created Collection 'patients'");
+        db.collection('patients', function(err, collection) {
+          collection.remove({}, {}, function(err, result) {});
+        });
+
+        console.log("Inserting ");
         db.collection('patients', function(err, collection) {
           collection.insert(getSamplePatients(), {
             safe: true
           }, function(err, result) {});
+        });
+
+        db.collection('patients', function(err, collection) {
+          collection.find({}, {}, function(err, result) {console.log(result);});
         });
       });
 
