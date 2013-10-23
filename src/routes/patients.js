@@ -52,6 +52,7 @@ exports.Patients = function() {
   };
 
   this.login = function(req, res) {
+    res.header("Content-Type", "application/json");
     var post = req.body;
     //console.log(post);
     if (post && post.username && post.password) {
@@ -59,9 +60,10 @@ exports.Patients = function() {
       var user = authenticateUser(post.username, post.password);
       if (user) {
         req.session.user_id = post.username;
-        res.send('{"status": "success", "firstName": "' + user.firstName + '"}');
+
+        res.send(JSON.stringify({status: 'success', firstName: user.firstName}));
       } else {
-        res.send('{"status": "failure"}');
+        res.send(JSON.stringify({status: 'failure'}));
       }
     } else {
       res.send('{status: "failure", errorMsg: "Problem with Post"}');
@@ -69,6 +71,7 @@ exports.Patients = function() {
   };
 
   this.logout = function(req, res) {
+    res.header("Content-Type", "application/json");
     delete req.session.user_id;
     res.send('{"status": "success"}');
   };
