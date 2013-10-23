@@ -19,14 +19,21 @@ exports.Patients = function() {
       'mongodb://localhost/mydb';
 
     console.log(mongoUri);
-
-    server = new MongoServer(mongoUri, 27017, {
-      auto_reconnect: true
+    MongoLib.connect(mongoUri, {}, function dbConnectCallback(error, database) {
+      db = database;
+      db.addListener("error", function handleError(error) {
+        console.log("Error connecting to MongoLab");
+      });
+      database.createCollection("patients");
     });
 
-    db = new MongoDB('patientdb', server, {
-      safe: true
-    });
+    //server = new MongoServer(mongoUri, 27017, {
+    //  auto_reconnect: true
+    //});
+
+    //db = new MongoDB('patientdb', server, {
+    //  safe: true
+    //});
 
     db.open(function(err, db) {
       if (!err) {
