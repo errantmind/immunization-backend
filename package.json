@@ -2,10 +2,9 @@
   "name": "patient-vaccination-records",
   "description": "Patient Vaccination Records",
   "version": "0.0.1",
-  "private": true,
   "dependencies": {
   "express": "3.x",
-  "mongodb" "1.3.x"
+  "mongodb": "1.3.x"
   },
   "engines": {
     "node": "0.10.x",
