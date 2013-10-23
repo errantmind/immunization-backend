@@ -58,8 +58,8 @@ exports.Patients = function() {
           }
         });
       }
-    });
-  };*/
+    });*/
+  };
 
     this.closeDB = function() {
       db.close();
