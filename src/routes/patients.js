@@ -37,12 +37,6 @@ exports.Patients = function() {
             safe: true
           }, function(err, result) {});
         });
-
-        db.collection('patients', function(err, collection) {
-          collection.find().toArray(function(err, items) {
-            //console.log(items);
-          });
-        });
       });
     });
   };
@@ -51,17 +45,20 @@ exports.Patients = function() {
     db.createCollection("patients", function collectionCallback(error, collection) {
       console.log("Created Collection 'patients'");
       db.collection('patients', function(err, collection) {
-        collection.remove({}, {}, function(err, result) {});
-      });
-
-      console.log("Inserting sample patients");
-      db.collection('patients', function(err, collection) {
-        collection.insert(getSamplePatients(), {
-          safe: true
-        }, function(err, result) {});
+        collection.remove({}, {}, function(err, result) {
+          console.log("Inserting sample patients");
+          db.collection('patients', function(err, collection) {
+            collection.insert(getSamplePatients(), {
+              safe: true
+            }, function(err, result) {
+              res.send(JSON.stringify({
+                status: 'success'
+              }));
+            });
+          });
+        });
       });
     });
-    res.send(JSON.stringify({status: 'success'}));
   };
 
 
@@ -121,7 +118,6 @@ exports.Patients = function() {
             status: "failure"
           }));
         } else if (item) {
-          console.log(item);
           res.send(item);
         }
       });
@@ -152,23 +148,42 @@ exports.Patients = function() {
     res.header("Content-Type", "application/json");
     var id = req.params.id;
     var patient = req.body;
-    console.log('Updating Patient: ' + id);
-    db.collection('patients', function(err, collection) {
-      collection.update({
-        '_id': new BSON.ObjectID(id)
-      }, patient, {
-        safe: true
-      }, function(err, result) {
-        if (err) {
-          console.log('Error updating patient: ' + err);
-          res.send(JSON.stringify({
-            status: 'failure',
-            error: 'An error has occurred'
-          }));
+    var currentPatient;
 
-        } else {
-          console.log('' + result + ' document(s) updated');
-          res.send(patient);
+    // find associated patient in db
+    db.collection('patients', function(err, collection) {
+      collection.findOne({
+        _id: new BSON.ObjectID(id)
+      }, function(err, item) {
+        if (err) {
+          console.log('failed to fetch patient in update patient!');
+        } else if (item) {
+          currentPatient = item;
+          for (var key in patient) {
+            currentPatient[key] = patient[key];
+          }
+
+          // update patient
+          console.log('Updating Patient: ' + id);
+          db.collection('patients', function(err, collection) {
+            collection.update({
+              '_id': new BSON.ObjectID(id)
+            }, currentPatient, {
+              safe: true
+            }, function(err, result) {
+              if (err) {
+                console.log('Error updating patient: ' + err);
+                res.send(JSON.stringify({
+                  status: 'failure',
+                  error: 'An error has occurred'
+                }));
+
+              } else {
+                console.log('' + result + ' document(s) updated');
+                res.send(JSON.stringify({status: 'success'}));
+              }
+            });
+          });
         }
       });
     });
@@ -267,7 +282,11 @@ exports.Patients = function() {
       contactState: "California",
       contactZip: "90405",
       contactCountry: "USA",
-      picture: "arnold1.jpg"
+      picture: "arnold1.jpg",
+      BirthBcgDate: '11/24/63',
+      BirthBcgAdministered: 'Jony Java',
+      BirthBcgHospital: 'United Childrens',
+      BirthBcgNext: '11/30/63'
     }, {
       firstName: "Mary",
       middleName: "Ann",
@@ -283,7 +302,15 @@ exports.Patients = function() {
       contactState: "Colorado",
       contactZip: "80521",
       contactCountry: "USA",
-      picture: "mary1.jpg"
+      picture: "mary1.jpg",
+      BirthBcgDate: '03/19/97',
+      BirthBcgAdministered: 'Jony Java',
+      BirthBcgHospital: 'United Childrens',
+      BirthBcgNext: '05/17/97',
+      sixPcvDate: '04/14/97',
+      sixPcvAdministered: 'Jimmy Smalltalk',
+      sixPcvHospital: 'Saint Matthews',
+      sixPcvNext: '06/12/97'
     }, {
       firstName: "Sherlock",
       middleName: "",
@@ -299,7 +326,11 @@ exports.Patients = function() {
       contactState: "",
       contactZip: "E1",
       contactCountry: "England",
-      picture: "sherlock1.jpg"
+      picture: "sherlock1.jpg",
+      BirthOpvDate: '05/29/72',
+      BirthOpvAdministered: 'John Pascal',
+      BirthOpvHospital: 'Saint Lukes',
+      BirthOpvNext: '06/12/72'
     }];
 
     return patients;
