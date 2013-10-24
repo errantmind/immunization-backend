@@ -228,6 +228,7 @@ exports.Patients = function() {
   }];
 
   var getSamplePatients = function() {
+
     var patients = [{
       firstName: "John",
       middleName: "Arnold",
