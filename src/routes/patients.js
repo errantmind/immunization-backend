@@ -237,6 +237,10 @@ exports.Patients = function() {
       birthDay: "22",
       contactPhone: "12815551234",
       contactEmail: "john.smith@gmail.com",
+      contactStreetAdress: "22B Baker Street",
+      contactCity: "Houston",
+      contactState: "Texas",
+      contactZip: "77098",
       picture: "john1.jpg"
     }, {
       firstName: "Mary",
@@ -247,6 +251,10 @@ exports.Patients = function() {
       birthDay: "2",
       contactPhone: "17135554321",
       contactEmail: "mary.whistler@gmail.com",
+      contactStreetAdress: "775 West Kingsley",
+      contactCity: "Fort Collins",
+      contactState: "Colorado",
+      contactZip: "80521",
       picture: "mary1.jpg"
     }];
 
