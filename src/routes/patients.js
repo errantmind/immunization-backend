@@ -230,20 +230,21 @@ exports.Patients = function() {
   var getSamplePatients = function() {
 
     var patients = [{
-      firstName: "John",
-      middleName: "Arnold",
-      lastName: "Smith",
-      birthYear: "1992",
+      firstName: "Arnold",
+      middleName: "Alois",
+      lastName: "Schwarzenegger",
+      birthYear: "1963",
       birthMonth: "11",
       birthDay: "22",
       gender: "Male",
       contactPhone: "12815551234",
-      contactEmail: "john.smith@gmail.com",
-      contactStreetAdress: "22B Baker Street",
-      contactCity: "Houston",
-      contactState: "Texas",
-      contactZip: "77098",
-      picture: "john1.jpg"
+      contactEmail: "arnold.schwarzenegger@gmail.com",
+      contactStreetAdress: "3110 Main Street",
+      contactCity: "Santa Monica",
+      contactState: "California",
+      contactZip: "90405",
+      contactCountry: "USA",
+      picture: "arnold1.jpg"
     }, {
       firstName: "Mary",
       middleName: "Ann",
@@ -258,7 +259,24 @@ exports.Patients = function() {
       contactCity: "Fort Collins",
       contactState: "Colorado",
       contactZip: "80521",
+      contactCountry: "USA",
       picture: "mary1.jpg"
+    }, {
+      firstName: "Sherlock",
+      middleName: "",
+      lastName: "Holmes",
+      birthYear: "1972",
+      birthMonth: "5",
+      birthDay: "21",
+      gender: "Male",
+      contactPhone: "16165551221",
+      contactEmail: "sherlock.holmes@gmail.com",
+      contactStreetAdress: "221B Baker Street",
+      contactCity: "London",
+      contactState: "",
+      contactZip: "E1",
+      contactCountry: "England",
+      picture: "sherlock1.jpg"
     }];
 
     return patients;
