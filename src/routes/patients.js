@@ -47,6 +47,24 @@ exports.Patients = function() {
     });
   };
 
+  this.populate = function(req, res) {
+    db.createCollection("patients", function collectionCallback(error, collection) {
+      console.log("Created Collection 'patients'");
+      db.collection('patients', function(err, collection) {
+        collection.remove({}, {}, function(err, result) {});
+      });
+
+      console.log("Inserting sample patients");
+      db.collection('patients', function(err, collection) {
+        collection.insert(getSamplePatients(), {
+          safe: true
+        }, function(err, result) {});
+      });
+    });
+    res.send(JSON.stringify({status: 'success'}));
+  };
+
+
   this.closeDB = function() {
     db.close();
   };
