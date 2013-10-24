@@ -100,6 +100,7 @@ exports.Patients = function() {
   };
 
   this.findAllPatients = function(req, res) {
+    res.header("Content-Type", "application/json");
     db.collection('patients', function(err, collection) {
       collection.find().toArray(function(err, items) {
         res.send(items);
@@ -108,6 +109,7 @@ exports.Patients = function() {
   };
 
   this.findPatientById = function(req, res) {
+    res.header("Content-Type", "application/json");
     var id = req.params.id;
     console.log('Retrieving Patient Record for ID: ' + id);
     db.collection('patients', function(err, collection) {
@@ -127,6 +129,7 @@ exports.Patients = function() {
   };
 
   this.addPatient = function(req, res) {
+    res.header("Content-Type", "application/json");
     var patient = req.body;
     console.log('Adding Patient: ' + JSON.stringify(patient));
     db.collection('patients', function(err, collection) {
@@ -172,6 +175,7 @@ exports.Patients = function() {
   };
 
   this.deletePatient = function(req, res) {
+    res.header("Content-Type", "application/json");
     var id = req.params.id;
     console.log('Deleting Patient: ' + id);
     db.collection('patients', function(err, collection) {
@@ -193,7 +197,6 @@ exports.Patients = function() {
   };
 
   this.searchPatient = function(req, res) {
-
     res.header("Content-Type", "application/json");
     var search = req.body;
 
@@ -219,6 +222,7 @@ exports.Patients = function() {
 
 
   this.checkAuth = function(req, res, next) {
+    res.header("Content-Type", "application/json");
     if (req.session.user_id) {
       res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
       next();
