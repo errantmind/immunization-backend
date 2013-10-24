@@ -180,7 +180,9 @@ exports.Patients = function() {
 
               } else {
                 console.log('' + result + ' document(s) updated');
-                res.send(JSON.stringify({status: 'success'}));
+                res.send(JSON.stringify({
+                  status: 'success'
+                }));
               }
             });
           });
@@ -283,6 +285,10 @@ exports.Patients = function() {
       contactZip: "90405",
       contactCountry: "USA",
       picture: "arnold1.jpg",
+      bloodType: "A-",
+      alergies: "Bees and Wasps",
+      diseaseHistory: "Chicken Pox at age 4",
+      notes: "Steroid use, possible damage to liver",
       BirthBcgDate: '11/24/63',
       BirthBcgAdministered: 'Jony Java',
       BirthBcgHospital: 'United Childrens',
@@ -303,6 +309,10 @@ exports.Patients = function() {
       contactZip: "80521",
       contactCountry: "USA",
       picture: "mary1.jpg",
+      bloodType: "O",
+      alergies: "Gluten",
+      diseaseHistory: "Malaria at age 12",
+      notes: "Spent an extensive amount of time in Africa",
       BirthBcgDate: '03/19/97',
       BirthBcgAdministered: 'Jony Java',
       BirthBcgHospital: 'United Childrens',
@@ -327,6 +337,10 @@ exports.Patients = function() {
       contactZip: "E1",
       contactCountry: "England",
       picture: "sherlock1.jpg",
+      bloodType: "O",
+      alergies: "None",
+      diseaseHistory: "Pneumonia at age 13",
+      notes: "Patient also may be suffering from depression",
       BirthOpvDate: '05/29/72',
       BirthOpvAdministered: 'John Pascal',
       BirthOpvHospital: 'Saint Lukes',
