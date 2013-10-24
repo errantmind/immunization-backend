@@ -175,6 +175,7 @@ exports.Patients = function() {
   };
 
   this.searchPatient = function(req, res) {
+
     res.header("Content-Type", "application/json");
     var search = req.body;
 
