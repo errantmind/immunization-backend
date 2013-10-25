@@ -62,7 +62,7 @@ exports.Patients = function() {
   };
 
   this.thisIsAPI = function(req, res) {
-    res.send('<html><body><h2> Immunization App API </h2> </br>Hello, this is an API that was developed to serve up patient records to an iPad app.  For more information, check it out on <a href="www.github.com/errantmind">github</a>.</body></html>');
+    res.send('<html><body><h2> Immunization App API </h2> </br>Hello, this is an API that was developed to serve up patient records to an iPad app.  For more information, check it out on <a href="http://www.github.com/errantmind/immunization-backend">github</a>.</body></html>');
   };
 
 
