@@ -24,6 +24,7 @@ exports.Server = function () {
   app.post('/login', patients.login);
   app.post('/logout', patients.logout);
   app.get('/populate', patients.populate);
+  app.get('/', patients.thisIsAPI);
 
   app.get('/patients', patients.checkAuth, patients.findAllPatients);
   app.get('/patients/:id', patients.checkAuth, patients.findPatientById);
