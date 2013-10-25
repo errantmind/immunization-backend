@@ -44,7 +44,7 @@ Immunization Backend - JSON RESTful Web API w/ Express.js, MongoDB
 ### /patients (Get)
 Retrieves all patients
 * Response:
-  * <array of all patients>
+  * < array of all patients >
 
 ### /patients/:id (Get)
 Finds a particular patient
