@@ -42,8 +42,15 @@ Immunization Backend - JSON RESTful Web API w/ Express.js, MongoDB
   * status: "success" or "failure"
 
 ### /patients (Get)
+Retrieves all patients
 * Response:
   * <array of all patients>
+
+### /patients/:id (Get)
+Finds a particular patient
+* Response:
+  * if patient found: <patient>
+  * if patient not found: status: "failure"
 
 ### /patients/:id (Post)
 Updates a patient's info
