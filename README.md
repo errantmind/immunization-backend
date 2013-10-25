@@ -7,6 +7,27 @@ Immunization Backend - JSON RESTful Web API w/ Express.js, MongoDB
 
 ## Backend API
 
+### Fields in Sample Patient Data
+* firstName
+* middleName
+* lastName
+* birthYear
+* birthMonth
+* birthDay
+* gender
+* contactPhone
+* contactEmail
+* contactStreetAddress
+* contactCity
+* contactState
+* contactZip
+* contactCountry
+* picture
+* bloodType
+* alergies
+* diseaseHistory
+* notes
+
 ### /login (Post)
 
 * Request:
@@ -14,51 +35,27 @@ Immunization Backend - JSON RESTful Web API w/ Express.js, MongoDB
   * password
 * Response:
   * status: "success" or "failure"
-  * firstName?
+  * firstName: <firstName>
 
 ### /logout (Post)
 * Response:
   * status: "success" or "failure"
 
 ### /patients (Get)
-Todo
+* Response:
+  * <array of all patients>
 
 ### /patients/:id (Post)
 Updates a patient's info
-* Request:
-  *  firstName
-  *  middleName
-  *  lastName
-  *  birthYear
-  *  birthMonth
-  *  birthDay
-  *  contactPhone
-  *  contactEmail
+* Request: <fields to change>
 * Response:
   * status: "success" or "failure"
   
 ### /search (Post)
 * Request:
-  *  firstName?
-  *  middleName?
-  *  lastName?
-  *  birthYear?
-  *  birthMonth?
-  *  birthDay?
-  *  contactPhone?
-  *  contactEmail?
-  *  _id?
+  * <fields to match on>
 * Response list:
-  *  firstName
-  *  middleName
-  *  lastName
-  *  birthYear
-  *  birthMonth
-  *  birthDay
-  *  contactPhone
-  *  contactEmail
-  *  picture
-  *  _id
+  * <array of matched patients>
  
 ### /populate (Get)
-Reload the database (in case something bad happened).
+* Reload the database in case something bad happened. Note, no authentication is required for this, meaning the database can be reset with a web browser.
