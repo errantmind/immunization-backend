@@ -65,4 +65,4 @@ Updates a patient's info
   * < array of matched patients >
  
 ### /populate (Get)
-* Reload the database in case something bad happened. Note, no authentication is required for this, meaning the database can be reset with a web browser.
+* Reload the database in case something bad happened. Note, no authentication is required for this: the database can be reset with a web browser.
