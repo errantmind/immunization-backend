@@ -35,7 +35,7 @@ Immunization Backend - JSON RESTful Web API w/ Express.js, MongoDB
   * password
 * Response:
   * status: "success" or "failure"
-  * firstName: <firstName>
+  * firstName: < firstName >
 
 ### /logout (Post)
 * Response:
@@ -49,20 +49,20 @@ Retrieves all patients
 ### /patients/:id (Get)
 Finds a particular patient
 * Response:
-  * if patient found: <patient>
+  * if patient found: < patient >
   * if patient not found: status: "failure"
 
 ### /patients/:id (Post)
 Updates a patient's info
-* Request: <fields to change>
+* Request: < fields to change >
 * Response:
   * status: "success" or "failure"
   
 ### /search (Post)
 * Request:
-  * <fields to match on>
+  * < fields to match on >
 * Response list:
-  * <array of matched patients>
+  * < array of matched patients >
  
 ### /populate (Get)
 * Reload the database in case something bad happened. Note, no authentication is required for this, meaning the database can be reset with a web browser.
