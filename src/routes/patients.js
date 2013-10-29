@@ -83,7 +83,10 @@ exports.Patients = function() {
         }));
       }
     } else {
-      res.send('{status: "failure", errorMsg: "Problem with Post"}');
+      res.send(JSON.stringify({
+        status: 'failure',
+        message: 'Problem with Post'
+      }));
     }
   };
 
@@ -117,7 +120,7 @@ exports.Patients = function() {
             status: "failure"
           }));
         } else if (item) {
-          res.send(item);
+          res.send(sanitizeRecords(item));
         }
       });
     });
@@ -132,12 +135,14 @@ exports.Patients = function() {
         safe: true
       }, function(err, result) {
         if (err) {
-          res.send({
-            'error': 'An error has occurred'
-          });
+          res.send(JSON.stringify({
+            status: 'failure'
+          }));
         } else {
           console.log('Success: ' + JSON.stringify(result[0]));
-          res.send(result[0]);
+          res.send(JSON.stringify({
+            status: 'success'
+          }));
         }
       });
     });
@@ -148,7 +153,6 @@ exports.Patients = function() {
     var id = req.params.id;
     var patient = req.body;
 
-    // find associated patient in db
     db.collection('patients', function(err, collection) {
       collection.findOne({
         _id: new BSON.ObjectID(id)
@@ -159,8 +163,6 @@ exports.Patients = function() {
           for (var key in patient) {
             item[key] = patient[key];
           }
-
-          // update patient
           console.log('Updating Patient: ' + id);
           collection.update({
             '_id': new BSON.ObjectID(id)
@@ -171,7 +173,7 @@ exports.Patients = function() {
               console.log('Error updating patient: ' + err);
               res.send(JSON.stringify({
                 status: 'failure',
-                error: 'An error has occurred'
+                message: 'An error has occurred'
               }));
 
             } else {
@@ -197,12 +199,14 @@ exports.Patients = function() {
         safe: true
       }, function(err, result) {
         if (err) {
-          res.send({
-            'error': 'An error has occurred - ' + err
-          });
+          res.send(JSON.stringify({
+            status: 'failure'
+          }));
         } else {
           console.log('' + result + ' document(s) deleted');
-          res.send(req.body);
+          res.send(JSON.stringify({
+            status: 'success'
+          }));
         }
       });
     });
@@ -259,7 +263,7 @@ exports.Patients = function() {
       console.log('Failure: ' + req.session.user_id);
       res.send(JSON.stringify({
         status: 'failure',
-        error: 'You are not authorized to view this page'
+        message: 'You are not authorized to view this page'
       }));
     }
   };
@@ -299,6 +303,7 @@ exports.Patients = function() {
       contactZip: "90405",
       contactCountry: "USA",
       picture: "arnold1.jpg",
+      vacPicture: "",
       bloodType: "A-",
       alergies: "Bees and Wasps",
       diseaseHistory: "Chicken Pox at age 4",
@@ -325,6 +330,7 @@ exports.Patients = function() {
       contactZip: "80521",
       contactCountry: "USA",
       picture: "mary1.jpg",
+      vacPicture: "",
       bloodType: "O",
       alergies: "Gluten",
       diseaseHistory: "Malaria at age 12",
@@ -355,6 +361,7 @@ exports.Patients = function() {
       contactZip: "E1",
       contactCountry: "England",
       picture: "sherlock1.jpg",
+      vacPicture: "",
       bloodType: "O",
       alergies: "None",
       diseaseHistory: "Pneumonia at age 13",
