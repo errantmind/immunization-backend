@@ -5,6 +5,8 @@ Immunization Backend - JSON RESTful Web API w/ Express.js, MongoDB
 
 2013 Bill &amp; Melinda Gates Immunization App
 
+[Test Deployment](http://immunization-api.herokuapp.com/)
+
 ## Backend API
 
 ### Fields in Sample Patient Data
