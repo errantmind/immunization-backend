@@ -16,7 +16,7 @@ exports.Patients = function() {
     BSON = MongoLib.BSONPure;
     var mongoUri = process.env.MONGOLAB_URI ||
       process.env.MONGOHQ_URL ||
-      'mongodb://localhost/mydb';
+      'mongodb://localhost/patientdb';
 
     console.log('DB URL: ' + mongoUri);
     MongoLib.connect(mongoUri, {}, function dbConnectCallback(error, database) {
@@ -26,7 +26,7 @@ exports.Patients = function() {
       });
 
       db.createCollection("patients", function collectionCallback(error, collection) {
-        console.log("Created Collection 'patients'");
+        console.log("Removing all records from 'patients'");
         db.collection('patients', function(err, collection) {
           collection.remove({}, {}, function(err, result) {});
         });
@@ -65,11 +65,6 @@ exports.Patients = function() {
     res.send('<html><body><h2> Immunization App API </h2> </br>Hello, this is an API that was developed to serve up patient records to an iPad app.  For more information, check it out on <a href="http://www.github.com/errantmind/immunization-backend">github</a>.</body></html>');
   };
 
-
-  this.closeDB = function() {
-    db.close();
-  };
-
   this.login = function(req, res) {
     res.header("Content-Type", "application/json");
     var post = req.body;
@@ -104,7 +99,7 @@ exports.Patients = function() {
     res.header("Content-Type", "application/json");
     db.collection('patients', function(err, collection) {
       collection.find().toArray(function(err, items) {
-        res.send(items);
+        res.send(sanitizeRecords(items));
       });
     });
   };
@@ -225,20 +220,38 @@ exports.Patients = function() {
       if (search[key] === "") {
         delete search[key];
       }
+      else if (key === "_id") {
+        search[key] = new BSON.ObjectID(search[key]);
+        console.log(search[key]);
+      }
     }
 
     console.log('Searching For Patient: ' + JSON.stringify(search));
     db.collection('patients', function(err, collection) {
-      collection.find(search).toArray(function(err, item) {
+      collection.find(search).toArray(function(err, patientRecords) {
         if (err) {
           res.send(JSON.stringify({
             status: "failure"
           }));
         } else {
-          res.send(item);
+          res.send(sanitizeRecords(patientRecords));
         }
       });
     });
+  };
+
+  var sanitizeRecords = function(userRecord) {
+    if(userRecord[0]) {
+      for(var i = 0; i < Object.keys(userRecord).length; ++i) {
+        delete userRecord[i]['userName'];
+        delete userRecord[i]['password'];
+      }
+
+    } else {
+      delete userRecord['userName'];
+      delete userRecord['password'];
+    }
+    return userRecord;
   };
 
 
@@ -257,14 +270,14 @@ exports.Patients = function() {
   };
 
   var authenticateUser = function(username, password) {
-    for (var user in authenticatedUsers) {
-      if (authenticatedUsers[user].username === username && authenticatedUsers[user].password === password)
-        return authenticatedUsers[user];
+    for (var user in privilegedUsers) {
+      if (privilegedUsers[user].username === username && privilegedUsers[user].password === password)
+        return privilegedUsers[user];
     }
     return null;
   };
 
-  var authenticatedUsers = [{
+  var privilegedUsers = [{
     firstName: "Betty",
     lastName: "Crocker",
     username: "test",
@@ -274,6 +287,8 @@ exports.Patients = function() {
   var getSamplePatients = function() {
 
     var patients = [{
+      userName: "arnold",
+      password: "thepump",
       firstName: "Arnold",
       middleName: "Alois",
       lastName: "Schwarzenegger",
@@ -298,6 +313,8 @@ exports.Patients = function() {
       BirthBcgHospital: 'United Childrens',
       BirthBcgNext: '11/30/63'
     }, {
+      userName: "mary",
+      password: "password",
       firstName: "Mary",
       middleName: "Ann",
       lastName: "Whistler",
@@ -326,6 +343,8 @@ exports.Patients = function() {
       sixPcvHospital: 'Saint Matthews',
       sixPcvNext: '06/12/97'
     }, {
+      userName: "sherlock",
+      password: "irene",
       firstName: "Sherlock",
       middleName: "",
       lastName: "Holmes",
