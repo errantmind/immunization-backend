@@ -147,7 +147,6 @@ exports.Patients = function() {
     res.header("Content-Type", "application/json");
     var id = req.params.id;
     var patient = req.body;
-    var currentPatient;
 
     // find associated patient in db
     db.collection('patients', function(err, collection) {
@@ -157,33 +156,30 @@ exports.Patients = function() {
         if (err) {
           console.log('failed to fetch patient in update patient!');
         } else if (item) {
-          currentPatient = item;
           for (var key in patient) {
-            currentPatient[key] = patient[key];
+            item[key] = patient[key];
           }
 
           // update patient
           console.log('Updating Patient: ' + id);
-          db.collection('patients', function(err, collection) {
-            collection.update({
-              '_id': new BSON.ObjectID(id)
-            }, currentPatient, {
-              safe: true
-            }, function(err, result) {
-              if (err) {
-                console.log('Error updating patient: ' + err);
-                res.send(JSON.stringify({
-                  status: 'failure',
-                  error: 'An error has occurred'
-                }));
+          collection.update({
+            '_id': new BSON.ObjectID(id)
+          }, item, {
+            safe: true
+          }, function(err, result) {
+            if (err) {
+              console.log('Error updating patient: ' + err);
+              res.send(JSON.stringify({
+                status: 'failure',
+                error: 'An error has occurred'
+              }));
 
-              } else {
-                console.log('' + result + ' document(s) updated');
-                res.send(JSON.stringify({
-                  status: 'success'
-                }));
-              }
-            });
+            } else {
+              console.log('' + result + ' document(s) updated');
+              res.send(JSON.stringify({
+                status: 'success'
+              }));
+            }
           });
         }
       });
@@ -219,8 +215,7 @@ exports.Patients = function() {
     for (var key in search) {
       if (search[key] === "") {
         delete search[key];
-      }
-      else if (key === "_id") {
+      } else if (key === "_id") {
         search[key] = new BSON.ObjectID(search[key]);
         console.log(search[key]);
       }
@@ -241,8 +236,8 @@ exports.Patients = function() {
   };
 
   var sanitizeRecords = function(userRecord) {
-    if(userRecord[0]) {
-      for(var i = 0; i < Object.keys(userRecord).length; ++i) {
+    if (userRecord[0]) {
+      for (var i = 0; i < Object.keys(userRecord).length; ++i) {
         delete userRecord[i]['userName'];
         delete userRecord[i]['password'];
       }
