@@ -25,6 +25,7 @@ exports.Patients = function() {
         console.log("Error connecting to MongoLab");
       });
 
+      /*
       db.createCollection("patients", function collectionCallback(error, collection) {
         console.log("Removing all records from 'patients'");
         db.collection('patients', function(err, collection) {
@@ -38,6 +39,7 @@ exports.Patients = function() {
           }, function(err, result) {});
         });
       });
+      */
     });
   };
 
