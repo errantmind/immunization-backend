@@ -1,5 +1,7 @@
 "use strict";
 
+var sendEmail = require("../email.js");
+
 exports.Patients = function() {
   var MongoLib,
     MongoServer,
@@ -379,27 +381,22 @@ exports.Patients = function() {
   };
 
   this.sendEmail = function(req, res) {
-    var mandrill = require('node-mandrill')('QF_csC3bNCiYrXx3cw5XjA');
-
-    mandrill('/messages/send', {
-      message: {
-        to: [{
-          email: req.body.emailAddress,
-          name: req.body.emailName
-        }],
-        from_email: 'notification@immunization-api.herokuapp.com',
-        subject: req.body.emailSubject,
-        text: req.body.emailText
-      }
-    }, function(error, response) {
-      if (error || response[0].status === 'invalid'){
-        console.log(JSON.stringify(error));
-        res.send(JSON.stringify({status: 'failure'}));
-      } else {
-        console.log(response);
-        res.send(JSON.stringify({status: 'success'}));
-      }
+    db.collection('patients', function (err, collection) {
+      collection.findOne({
+        _id: new BSON.ObjectID(req.params.id)
+      }, function (err, item) {
+        if (err) {
+          res.send(JSON.stringify({status: 'failure'}));
+        } else if (item) {
+          sendEmail(item, function (success) {
+            if (success) {
+              res.send(JSON.stringify({status: 'success'}));
+            } else {
+              res.send(JSON.stringify({status: 'failure'}));
+            }
+          });
+        }
+      });
     });
-
   };
 };
