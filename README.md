@@ -68,3 +68,14 @@ Updates a patient's info
  
 ### /populate (Get)
 * Reload the database in case something bad happened. Note, no authentication is required for this: the database can be reset with a web browser.
+
+### /email (Post)
+* Fields:
+  * emailAddress
+  * emailName
+  * emailSubject
+  * emailText
+* Request:
+  * < email fields >
+* Response:
+  * status: "success" or "failure"
