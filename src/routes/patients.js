@@ -377,9 +377,6 @@ exports.Patients = function() {
   };
 
   this.sendEmail = function(req, res) {
-
-    console.log(BSON.ObjectID(req.params.id));
-
     db.collection('patients', function (err, collection) {
       collection.findOne({
         _id: new BSON.ObjectID(req.params.id)
@@ -387,7 +384,6 @@ exports.Patients = function() {
         if (err) {
           res.send(JSON.stringify({status: 'failure'}));
         } else if (item) {
-          console.log(item);
           SendEmailLib.sendMail(item, function (success) {
             if (success) {
               res.send(JSON.stringify({status: 'success'}));

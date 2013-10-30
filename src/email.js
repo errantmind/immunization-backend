@@ -8,12 +8,10 @@ exports.sendMail = function(patientObject, callback) {
 
   var template = fs.readFileSync(path.resolve(__dirname, 'template.html')).toString("ascii");
   var html = template;
-  console.log(template);
   for (var i in fields) {
     //replace {data} with field
     html = html.replace("{data}", patientObject[fields[i]]);
   }
-  console.log(html);
 
   mandrill('/messages/send', {
     message: {
