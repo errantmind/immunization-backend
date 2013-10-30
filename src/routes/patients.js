@@ -1,21 +1,17 @@
 "use strict";
 
-var sendEmail = require("../email.js");
-
 exports.Patients = function() {
-  var MongoLib,
+  var MongoLib = require('mongodb'),
     MongoServer,
     MongoDB,
-    BSON,
+    BSON = MongoLib.BSONPure,
     server,
-    db;
+    db,
+    SendEmailLib = require("../email.js");
 
   this.initDB = function() {
-    MongoLib = require('mongodb');
-
     MongoServer = MongoLib.Server;
     MongoDB = MongoLib.Db;
-    BSON = MongoLib.BSONPure;
     var mongoUri = process.env.MONGOLAB_URI ||
       process.env.MONGOHQ_URL ||
       'mongodb://localhost/patientdb';
@@ -300,7 +296,7 @@ exports.Patients = function() {
       birthDay: "22",
       gender: "Male",
       contactPhone: "12815551234",
-      contactEmail: "arnold.schwarzenegger@gmail.com",
+      contactEmail: "sam.messina@gmail.com",
       contactStreetAddress: "3110 Main Street",
       contactCity: "Santa Monica",
       contactState: "California",
@@ -360,7 +356,7 @@ exports.Patients = function() {
       birthDay: "21",
       gender: "Male",
       contactPhone: "16165551221",
-      contactEmail: "sherlock.holmes@gmail.com",
+      contactEmail: "transmute@gmail.com",
       contactStreetAddress: "221B Baker Street",
       contactCity: "London",
       contactState: "",
@@ -381,6 +377,9 @@ exports.Patients = function() {
   };
 
   this.sendEmail = function(req, res) {
+
+    console.log(BSON.ObjectID(req.params.id));
+
     db.collection('patients', function (err, collection) {
       collection.findOne({
         _id: new BSON.ObjectID(req.params.id)
@@ -388,7 +387,8 @@ exports.Patients = function() {
         if (err) {
           res.send(JSON.stringify({status: 'failure'}));
         } else if (item) {
-          sendEmail(item, function (success) {
+          console.log(item);
+          SendEmailLib.sendMail(item, function (success) {
             if (success) {
               res.send(JSON.stringify({status: 'success'}));
             } else {
