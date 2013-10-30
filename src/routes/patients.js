@@ -377,4 +377,34 @@ exports.Patients = function() {
     }];
     return patients;
   };
+
+  this.sendEmail = function(req, res) {
+    var mandrill = require('node-mandrill')('QF_csC3bNCiYrXx3cw5XjA');
+
+    console.log(req.body.emailAddress);
+    console.log(req.body.emailName);
+    console.log(req.body.emailSubject);
+    console.log(req.body.emailText);
+
+    mandrill('/messages/send', {
+      message: {
+        to: [{
+          email: req.body.emailAddress,
+          name: req.body.emailName
+        }],
+        from_email: 'notification@immunization-api.herokuapp.com',
+        subject: req.body.emailSubject,
+        text: req.body.emailText
+      }
+    }, function(error, response) {
+      if (error || response[0].status === 'invalid'){
+        console.log(JSON.stringify(error));
+        res.send(JSON.stringify({status: 'failure'}));
+      } else {
+        console.log(response);
+        res.send(JSON.stringify({status: 'success'}));
+      }
+    });
+
+  };
 };
