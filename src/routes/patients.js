@@ -223,7 +223,6 @@ exports.Patients = function() {
         delete search[key];
       } else if (key === "_id") {
         search[key] = new BSON.ObjectID(search[key]);
-        console.log(search[key]);
       }
     }
 
@@ -288,6 +287,7 @@ exports.Patients = function() {
   var getSamplePatients = function() {
 
     var patients = [{
+      id: "1",
       userName: "arnold",
       password: "thepump",
       firstName: "Arnold",
@@ -315,6 +315,7 @@ exports.Patients = function() {
       BirthBcgHospital: 'United Childrens',
       BirthBcgNext: '11/30/63'
     }, {
+      id: "2",
       userName: "mary",
       password: "password",
       firstName: "Mary",
@@ -346,6 +347,7 @@ exports.Patients = function() {
       sixPcvHospital: 'Saint Matthews',
       sixPcvNext: '06/12/97'
     }, {
+      id: "3",
       userName: "sherlock",
       password: "irene",
       firstName: "Sherlock",
@@ -373,7 +375,6 @@ exports.Patients = function() {
       BirthOpvHospital: 'Saint Lukes',
       BirthOpvNext: '06/12/72'
     }];
-
     return patients;
   };
 };
