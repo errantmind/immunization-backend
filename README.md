@@ -71,11 +71,6 @@ Updates a patient's info
 
 ### /email (Post)
 * Fields:
-  * emailAddress
-  * emailName
-  * emailSubject
-  * emailText
-* Request:
-  * < email fields >
+  * _id
 * Response:
   * status: "success" or "failure"
