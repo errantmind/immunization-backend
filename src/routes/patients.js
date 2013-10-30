@@ -381,11 +381,6 @@ exports.Patients = function() {
   this.sendEmail = function(req, res) {
     var mandrill = require('node-mandrill')('QF_csC3bNCiYrXx3cw5XjA');
 
-    console.log(req.body.emailAddress);
-    console.log(req.body.emailName);
-    console.log(req.body.emailSubject);
-    console.log(req.body.emailText);
-
     mandrill('/messages/send', {
       message: {
         to: [{
