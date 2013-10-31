@@ -226,7 +226,7 @@ exports.Patients = function() {
           return "Zip Code";
       }
       if(key === "contactPhone") {
-        if(patient[key].length === 0)
+        if(patient[key].length < 10 || isNaN(patient[key]))
           return "Phone Number";
       }
       if(key === "birthYear") {
@@ -242,8 +242,7 @@ exports.Patients = function() {
           return "Birth Day";
       }
       if(key === "contactEmail") {
-        var re = /\S+@\S+\.\S+/;
-        if(!re.test(patient[key]))
+        if(!(/\S+@\S+\.\S+/).test(patient[key]))
           return "Email Address";
       }
     }
