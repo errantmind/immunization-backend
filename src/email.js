@@ -11,7 +11,7 @@ exports.sendMail = function(patientObject, callback) {
   for (var i in fields) {
     //replace {data} with field
     var value = patientObject[fields[i]];
-    if(value == undefined) {
+    if(value === undefined) {
       value = "";
     }
     html = html.replace("{data}", value);
