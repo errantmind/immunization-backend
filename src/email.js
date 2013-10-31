@@ -10,7 +10,11 @@ exports.sendMail = function(patientObject, callback) {
   var html = template;
   for (var i in fields) {
     //replace {data} with field
-    html = html.replace("{data}", patientObject[fields[i]]);
+    var value = patientObject[fields[i]];
+    if(value == undefined) {
+      value = "";
+    }
+    html = html.replace("{data}", value);
   }
 
   mandrill('/messages/send', {
