@@ -278,7 +278,7 @@ exports.Patients = function() {
   var privilegedUsers = [{
     firstName: "Betty",
     lastName: "Crocker",
-    username: "test",
+    username: "betty@gmail.com",
     password: "test"
   }];
 
