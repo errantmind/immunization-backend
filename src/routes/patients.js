@@ -241,6 +241,11 @@ exports.Patients = function() {
         if(!(patient[key].length === 1 || patient[key].length === 2) || isNaN(patient[key]) || (patient[key] % 1 !== 0) || (parseInt(patient[key], 10) < 1) || (parseInt(patient[key], 10) > 31))
           return "Birth Day";
       }
+      if(key === "contactEmail") {
+        var re = /\S+@\S+\.\S+/;
+        if(!re.test(patient[key]))
+          return "Email Address";
+      }
     }
   };
 
