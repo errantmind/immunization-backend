@@ -153,6 +153,13 @@ exports.Patients = function() {
     var id = req.params.id;
     var patient = req.body;
 
+    var badFormInfo = validatePatientUpdateRequest(patient);
+    console.log(badFormInfo);
+    if(badFormInfo){
+      res.send(JSON.stringify({status: "failure", validateMsg: badFormInfo}));
+      return;
+    }
+
     db.collection('patients', function(err, collection) {
       collection.findOne({
         _id: new BSON.ObjectID(id)
@@ -210,6 +217,31 @@ exports.Patients = function() {
         }
       });
     });
+  };
+
+  var validatePatientUpdateRequest = function(patient) {
+    for(var key in patient) {
+      if(key === "contactZip") {
+        if(isNaN(parseFloat(patient[key]) && isFinite(patient[key]) || patient[key].length === 0))
+          return "Zip Code";
+      }
+      if(key === "contactPhone") {
+        if(patient[key].length === 0)
+          return "Phone Number";
+      }
+      if(key === "birthYear") {
+        if(patient[key].length !== 4 || isNaN(patient[key]) || (patient[key] % 1 !== 0) || (parseInt(patient[key], 10) < 1900) || (parseInt(patient[key], 10) > (new Date().getFullYear())))
+          return "Birth Year";
+      }
+      if(key === "birthMonth") {
+        if(!(patient[key].length === 1 || patient[key].length === 2) || isNaN(patient[key]) || (patient[key] % 1 !== 0) || (parseInt(patient[key], 10) < 1) || (parseInt(patient[key], 10) > 12))
+          return "Birth Month";
+      }
+      if(key === "birthDay") {
+        if(!(patient[key].length === 1 || patient[key].length === 2) || isNaN(patient[key]) || (patient[key] % 1 !== 0) || (parseInt(patient[key], 10) < 1) || (parseInt(patient[key], 10) > 31))
+          return "Birth Day";
+      }
+    }
   };
 
   this.searchPatient = function(req, res) {
