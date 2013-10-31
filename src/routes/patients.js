@@ -226,7 +226,7 @@ exports.Patients = function() {
           return "Zip Code";
       }
       if(key === "contactPhone") {
-        if(patient[key].length < 10 || isNaN(patient[key]))
+        if(patient[key].replace(/^[0-9]/, '').length < 10 || isNaN(patient[key]))
           return "Phone Number";
       }
       if(key === "birthYear") {
