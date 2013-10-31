@@ -296,7 +296,7 @@ exports.Patients = function() {
       birthDay: "22",
       gender: "Male",
       contactPhone: "12815551234",
-      contactEmail: "sam.messina@gmail.com",
+      contactEmail: "arnold.schwarzenegger@gmail.com",
       contactStreetAddress: "3110 Main Street",
       contactCity: "Santa Monica",
       contactState: "California",
@@ -308,10 +308,10 @@ exports.Patients = function() {
       alergies: "Bees and Wasps",
       diseaseHistory: "Chicken Pox at age 4",
       notes: "Steroid use, possible damage to liver",
-      BirthBcgDate: '11/24/63',
+      BirthBcgDate: '11/24/1963',
       BirthBcgAdministered: 'Jony Java',
       BirthBcgHospital: 'United Childrens',
-      BirthBcgNext: '11/30/63'
+      BirthBcgNext: '11/30/1963'
     }, {
       id: "2",
       userName: "mary",
@@ -336,14 +336,14 @@ exports.Patients = function() {
       alergies: "Gluten",
       diseaseHistory: "Malaria at age 12",
       notes: "Spent an extensive amount of time in Africa",
-      BirthBcgDate: '03/19/97',
+      BirthBcgDate: '03/19/1997',
       BirthBcgAdministered: 'Jony Java',
       BirthBcgHospital: 'United Childrens',
-      BirthBcgNext: '05/17/97',
-      sixPcvDate: '04/14/97',
+      BirthBcgNext: '05/17/1997',
+      sixPcvDate: '04/14/1997',
       sixPcvAdministered: 'Jimmy Smalltalk',
       sixPcvHospital: 'Saint Matthews',
-      sixPcvNext: '06/12/97'
+      sixPcvNext: '06/12/1997'
     }, {
       id: "3",
       userName: "sherlock",
@@ -356,7 +356,7 @@ exports.Patients = function() {
       birthDay: "21",
       gender: "Male",
       contactPhone: "16165551221",
-      contactEmail: "transmute@gmail.com",
+      contactEmail: "sherlock.holmes@gmail.com",
       contactStreetAddress: "221B Baker Street",
       contactCity: "London",
       contactState: "",
@@ -368,10 +368,10 @@ exports.Patients = function() {
       alergies: "None",
       diseaseHistory: "Pneumonia at age 13",
       notes: "Patient also may be suffering from depression",
-      BirthOpvDate: '05/29/72',
+      BirthOpvDate: '05/29/1972',
       BirthOpvAdministered: 'John Pascal',
       BirthOpvHospital: 'Saint Lukes',
-      BirthOpvNext: '06/12/72'
+      BirthOpvNext: '06/12/1972'
     }];
     return patients;
   };
