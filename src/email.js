@@ -21,7 +21,7 @@ exports.sendMail = function(patientObject, callback) {
       }],
       from_email: 'notification@immunization-api.herokuapp.com',
       subject: "Immunization info for " + patientObject.firstName + " " + patientObject.lastName,
-      text: html
+      html: html
     }
   }, function(error, response) {
     if (error || response[0].status === 'invalid') {
