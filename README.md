@@ -13,6 +13,9 @@ Immunization Backend - JSON RESTful Web API w/ Express.js, MongoDB
 * firstName
 * middleName
 * lastName
+* fatherFullName
+* motherFullName
+* motherMaidenName
 * birthYear
 * birthMonth
 * birthDay
