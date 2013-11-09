@@ -7,6 +7,8 @@ Immunization Backend - JSON RESTful Web API w/ Express.js, MongoDB
 
 [Test Deployment](http://immunization-api.herokuapp.com/)
 
+[See the iPad app that uses this API!](http://www.youtube.com/watch?v=k--setjDyEQ)
+
 ## Backend API
 
 ### Fields in Sample Patient Data
