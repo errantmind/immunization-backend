@@ -240,14 +240,19 @@ exports.Patients = function() {
         if (!(/^\S+@\S+\.\S+$/).test(patient[key]))
           return "Email Address";
       }
-      if ((/Name/g).test(key) || (/Administered/g).test(key)) {
-        console.log(key);
+      if ((/Name/g).test(key)) {
         if (!(/^[a-zA-Z]+[a-zA-Z. ]*$/).test(patient[key]))
           return key;
       }
-      if ((/Date/g).test(key)) {
-        if (!(/^\d{2}\/\d{2}\/\d{4}$/).test(patient[key]))
-          return key;
+      if ((/Administered/g).test(key)) {
+        if (patient[key])
+          if (!(/^[a-zA-Z]+[a-zA-Z. ]*$/).test(patient[key]))
+            return key;
+      }
+      if ((/Date/g).test(key) || (/Next/g).test(key)) {
+        if (patient[key])
+          if (!(/^\d{2}\/\d{2}\/\d{4}$/).test(patient[key]))
+            return key;
       }
     }
   };
