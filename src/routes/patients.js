@@ -154,9 +154,11 @@ exports.Patients = function() {
     var patient = req.body;
 
     var badFormInfo = validatePatientUpdateRequest(patient);
-    console.log(badFormInfo);
-    if(badFormInfo){
-      res.send(JSON.stringify({status: "failure", validateMsg: badFormInfo}));
+    if (badFormInfo) {
+      res.send(JSON.stringify({
+        status: "failure",
+        validateMsg: badFormInfo
+      }));
       return;
     }
 
@@ -220,33 +222,37 @@ exports.Patients = function() {
   };
 
   var validatePatientUpdateRequest = function(patient) {
-    for(var key in patient) {
-      if(key === "contactZip") {
-        if(isNaN(parseFloat(patient[key]) && isFinite(patient[key]) || patient[key].length === 0))
+
+    for (var key in patient) {
+      if (key === "contactState") {
+        if (!(/^[A-Z]{2}$/).test(patient[key]))
+          return "State";
+      }
+      if (key === "contactZip") {
+        if (!(/^\d{5}$/).test(patient[key]))
           return "Zip Code";
       }
-      if(key === "contactPhone") {
-        if(patient[key].replace(/[^0-9]/g, '').length < 10)
+      if (key === "contactPhone") {
+        if (!(/^\d{3}-\d{3}-\d{4}$/).test(patient[key]))
           return "Phone Number";
       }
-      if(key === "birthYear") {
-        if(patient[key].length !== 4 || isNaN(patient[key]) || (patient[key] % 1 !== 0) || (parseInt(patient[key], 10) < 1900) || (parseInt(patient[key], 10) > (new Date().getFullYear())))
-          return "Birth Year";
-      }
-      if(key === "birthMonth") {
-        if(!(patient[key].length === 1 || patient[key].length === 2) || isNaN(patient[key]) || (patient[key] % 1 !== 0) || (parseInt(patient[key], 10) < 1) || (parseInt(patient[key], 10) > 12))
-          return "Birth Month";
-      }
-      if(key === "birthDay") {
-        if(!(patient[key].length === 1 || patient[key].length === 2) || isNaN(patient[key]) || (patient[key] % 1 !== 0) || (parseInt(patient[key], 10) < 1) || (parseInt(patient[key], 10) > 31))
-          return "Birth Day";
-      }
-      if(key === "contactEmail") {
-        if(!(/\S+@\S+\.\S+/).test(patient[key]))
+      if (key === "contactEmail") {
+        if (!(/^\S+@\S+\.\S+$/).test(patient[key]))
           return "Email Address";
+      }
+      if ((/Name/g).test(key) || (/Administered/g).test(key)) {
+        console.log(key);
+        if (!(/^[a-zA-Z]+[a-zA-Z. ]*$/).test(patient[key]))
+          return key;
+      }
+      if ((/Date/g).test(key)) {
+        if (!(/^\d{2}\/\d{2}\/\d{4}$/).test(patient[key]))
+          return key;
       }
     }
   };
+
+
 
   this.searchPatient = function(req, res) {
     res.header("Content-Type", "application/json");
@@ -327,15 +333,18 @@ exports.Patients = function() {
       firstName: "Arnold",
       middleName: "Alois",
       lastName: "Schwarzenegger",
+      fatherFullName: "George Washington",
+      motherFullName: "Marie Curie",
+      motherMaidenName: "Peach",
       birthYear: "1963",
       birthMonth: "11",
       birthDay: "22",
       gender: "Male",
-      contactPhone: "12815551234",
+      contactPhone: "281-555-1234",
       contactEmail: "arnold.schwarzenegger@gmail.com",
       contactStreetAddress: "3110 Main Street",
       contactCity: "Santa Monica",
-      contactState: "California",
+      contactState: "CA",
       contactZip: "90405",
       contactCountry: "USA",
       picture: "arnold1.jpg",
@@ -355,15 +364,18 @@ exports.Patients = function() {
       firstName: "Mary",
       middleName: "Ann",
       lastName: "Whistler",
+      fatherFullName: "George Washington",
+      motherFullName: "Marie Curie",
+      motherMaidenName: "Peach",
       birthYear: "1997",
       birthMonth: "3",
       birthDay: "2",
       gender: "Female",
-      contactPhone: "17135554321",
+      contactPhone: "713-555-4321",
       contactEmail: "mary.whistler@gmail.com",
       contactStreetAddress: "775 West Kingsley",
       contactCity: "Fort Collins",
-      contactState: "Colorado",
+      contactState: "CO",
       contactZip: "80521",
       contactCountry: "USA",
       picture: "mary1.jpg",
@@ -387,16 +399,19 @@ exports.Patients = function() {
       firstName: "Sherlock",
       middleName: "",
       lastName: "Holmes",
+      fatherFullName: "George Washington",
+      motherFullName: "Marie Curie",
+      motherMaidenName: "Peach",
       birthYear: "1972",
       birthMonth: "5",
       birthDay: "21",
       gender: "Male",
-      contactPhone: "16165551221",
+      contactPhone: "616-555-1221",
       contactEmail: "sherlock.holmes@gmail.com",
       contactStreetAddress: "221B Baker Street",
-      contactCity: "London",
-      contactState: "",
-      contactZip: "E1",
+      contactCity: "Houston",
+      contactState: "TX",
+      contactZip: "77098",
       contactCountry: "England",
       picture: "sherlock1.jpg",
       vacPicture: "",
@@ -413,18 +428,24 @@ exports.Patients = function() {
   };
 
   this.sendEmail = function(req, res) {
-    db.collection('patients', function (err, collection) {
+    db.collection('patients', function(err, collection) {
       collection.findOne({
         _id: new BSON.ObjectID(req.params.id)
-      }, function (err, item) {
+      }, function(err, item) {
         if (err) {
-          res.send(JSON.stringify({status: 'failure'}));
+          res.send(JSON.stringify({
+            status: 'failure'
+          }));
         } else if (item) {
-          SendEmailLib.sendMail(item, function (success) {
+          SendEmailLib.sendMail(item, function(success) {
             if (success) {
-              res.send(JSON.stringify({status: 'success'}));
+              res.send(JSON.stringify({
+                status: 'success'
+              }));
             } else {
-              res.send(JSON.stringify({status: 'failure'}));
+              res.send(JSON.stringify({
+                status: 'failure'
+              }));
             }
           });
         }
