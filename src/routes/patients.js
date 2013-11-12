@@ -22,22 +22,6 @@ exports.Patients = function() {
       db.addListener("error", function handleError(error) {
         console.log("Error connecting to MongoLab");
       });
-
-      /*
-      db.createCollection("patients", function collectionCallback(error, collection) {
-        console.log("Removing all records from 'patients'");
-        db.collection('patients', function(err, collection) {
-          collection.remove({}, {}, function(err, result) {});
-        });
-
-        console.log("Inserting sample patients");
-        db.collection('patients', function(err, collection) {
-          collection.insert(getSamplePatients(), {
-            safe: true
-          }, function(err, result) {});
-        });
-      });
-      */
     });
   };
 
@@ -51,9 +35,15 @@ exports.Patients = function() {
             collection.insert(getSamplePatients(), {
               safe: true
             }, function(err, result) {
-              res.send(JSON.stringify({
-                status: 'success'
-              }));
+              if (err) {
+                res.send(JSON.stringify({
+                  status: 'failure'
+                }), 500);
+              } else {
+                res.send(JSON.stringify({
+                  status: 'success'
+                }), 200);
+              }
             });
           });
         });
@@ -76,17 +66,16 @@ exports.Patients = function() {
         res.send(JSON.stringify({
           status: 'success',
           firstName: user.firstName
-        }));
+        }), 200);
       } else {
         res.send(JSON.stringify({
           status: 'failure'
-        }));
+        }), 401);
       }
     } else {
       res.send(JSON.stringify({
         status: 'failure',
-        message: 'Problem with Post'
-      }));
+      }), 400);
     }
   };
 
@@ -95,20 +84,18 @@ exports.Patients = function() {
     delete req.session.user_id;
     res.send(JSON.stringify({
       status: "success"
-    }));
+    }), 200);
   };
 
   this.findAllPatients = function(req, res) {
-    res.header("Content-Type", "application/json");
     db.collection('patients', function(err, collection) {
       collection.find().toArray(function(err, items) {
-        res.send(sanitizeRecords(items));
+        res.send(sanitizeRecords(items), 200);
       });
     });
   };
 
   this.findPatientById = function(req, res) {
-    res.header("Content-Type", "application/json");
     var id = req.params.id;
     console.log('Retrieving Patient Record for ID: ' + id);
     db.collection('patients', function(err, collection) {
@@ -118,16 +105,21 @@ exports.Patients = function() {
         if (err) {
           res.send(JSON.stringify({
             status: "failure"
-          }));
-        } else if (item) {
-          res.send(sanitizeRecords(item));
+          }), 400);
+          return;
+        }
+        if (item) {
+          res.send(sanitizeRecords(item), 200);
+        } else {
+          res.send(JSON.stringify({
+            status: "failure"
+          }), 404);
         }
       });
     });
   };
 
   this.addPatient = function(req, res) {
-    res.header("Content-Type", "application/json");
     var patient = req.body;
     console.log('Adding Patient: ' + JSON.stringify(patient));
     db.collection('patients', function(err, collection) {
@@ -149,7 +141,6 @@ exports.Patients = function() {
   };
 
   this.updatePatient = function(req, res) {
-    res.header("Content-Type", "application/json");
     var id = req.params.id;
     var patient = req.body;
 
@@ -198,7 +189,6 @@ exports.Patients = function() {
   };
 
   this.deletePatient = function(req, res) {
-    res.header("Content-Type", "application/json");
     var id = req.params.id;
     console.log('Deleting Patient: ' + id);
     db.collection('patients', function(err, collection) {
@@ -260,7 +250,6 @@ exports.Patients = function() {
 
 
   this.searchPatient = function(req, res) {
-    res.header("Content-Type", "application/json");
     var search = req.body;
 
     for (var key in search) {
@@ -423,7 +412,7 @@ exports.Patients = function() {
       bloodType: "O",
       alergies: "None",
       diseaseHistory: "Pneumonia at age 13",
-      notes: "Patient also may be suffering from depression",
+      notes: "Patient may also be suffering from depression",
       BirthOpvDate: '05/29/1972',
       BirthOpvAdministered: 'John Pascal',
       BirthOpvHospital: 'Saint Lukes',

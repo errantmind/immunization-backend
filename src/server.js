@@ -24,7 +24,6 @@ exports.Server = function () {
   app.post('/login', patients.login);
   app.post('/logout', patients.logout);
   app.get('/populate', patients.populate);
-  app.get('/email/:id', patients.checkAuth, patients.sendEmail);
   app.get('/', patients.thisIsAPI);
 
   app.get('/patients', patients.checkAuth, patients.findAllPatients);
@@ -34,6 +33,7 @@ exports.Server = function () {
   app.delete('/patients/:id', patients.checkAuth, patients.deletePatient);
 
   app.post('/search', patients.checkAuth, patients.searchPatient);
+  app.get('/email/:id', patients.checkAuth, patients.sendEmail);
 
 
 
